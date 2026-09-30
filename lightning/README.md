@@ -48,7 +48,7 @@
 
 这一关，比想象中凶：宋体对 Unicode 上下标覆盖不全，一章能静默漏掉两百多个上下标；化学式残缺比写错更隐蔽；数学符号会**变成另一个符号**静静通过；表格渲染成空白、XML 顺序错一位 Word 直接打不开——而渲染验证却显示"通过"。
 
-所以转换流水线（源码在 `脚本源码.md`）做的事是：**pandoc 搬运 + 表格修复 + 语义上色 + 页码 + 顺序归一化**，全程不让你用 python-docx 把内容重打一遍（每重打一次就掉一批字符）；最后用 `verify_docx.py` 这道闸，**14 类检查**专门抓"脚本没报错、但实际做错了"的静默失效。
+所以转换流水线（源码在 `SOURCECODE.md`）做的事是：**pandoc 搬运 + 表格修复 + 语义上色 + 页码 + 顺序归一化**，全程不让你用 python-docx 把内容重打一遍（每重打一次就掉一批字符）；最后用 `verify_docx.py` 这道闸，**14 类检查**专门抓"脚本没报错、但实际做错了"的静默失效。
 
 它不是帮你"生成一份文档"。它是帮你**别把一份其实已经错了的文档，信心满满交出去**。
 
@@ -67,11 +67,11 @@
 
 ## 跑通一份
 
-lightning 的核心是两份：`SKILL.md`（方法论，顶部已带 `name`/`description` frontmatter，可直接被 skill 加载器加载）+ `脚本源码.md`（转换流水线全部脚本源码）；另附 `example/demo.md` 作演示样例。要真正转换，先把源码落成脚本：
+lightning 的核心是两份：`SKILL.md`（方法论，顶部已带 `name`/`description` frontmatter，可直接被 skill 加载器加载）+ `SOURCECODE.md`（转换流水线全部脚本源码）；另附 `example/demo.md` 作演示样例。要真正转换，先把源码落成脚本：
 
 ```bash
-# 1) 从 脚本源码.md 把每个代码块存成 scripts/ 下同名文件，md2a5.sh 需 chmod +x
-mkdir -p scripts && <把 脚本源码.md 里的代码块逐一存好>
+# 1) 从 SOURCECODE.md 把每个代码块存成 scripts/ 下同名文件，md2a5.sh 需 chmod +x
+mkdir -p scripts && <把 SOURCECODE.md 里的代码块逐一存好>
 
 # 2) 按 SKILL.md 的规范写一份讲义 .md（参考 `example/demo.md`，本版自带）
 # 3) 转换：
@@ -91,7 +91,7 @@ python3 scripts/verify_docx.py 你的讲义_A5打印版.docx 你的讲义.md
 
 lightning 是**纯通用版**：没有读者画像、没有定制向导，干净、可移植，适合直接当一份"怎么教人"的指令塞进任意 AI / skill 加载器。
 
-> 本目录 `SKILL.md` 已带标准 skill frontmatter（`name` / `description`），复制到 `~/.workbuddy/skills/md2a5-lightning/SKILL.md` 即可作为 skill 被加载；`脚本源码.md` 是它配套的流水线参考。
+> 本目录 `SKILL.md` 已带标准 skill frontmatter（`name` / `description`），复制到 `~/.workbuddy/skills/md2a5-lightning/SKILL.md` 即可作为 skill 被加载；`SOURCECODE.md` 是它配套的流水线参考。
 
 如果你想要个性化——按你的学习阶段、教材版本、深度偏好、薄弱类型来调——那是 **thunder（完整版）** 的事：它多了 `collect_profile.py` 交互向导和 `apply_profile.py` 注入，会自动在稿首写一行"适配声明"。同仓 `thunder/` 即是。
 
